@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MySpends</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="types_spends">
+        <item>Comida</item>
+        <item>Electrónica</item>
+        <item>Ropa</item>
+        <item>Suscripciones</item>
+        <item>Facultad</item>
+        <item>Cumpleaños</item>
+        <item>Gastos varios</item>
+        <item>Otros</item>
+    </string-array>
+
+    <string-array name="types_earns">
+        <item>Trabajo</item>
+        <item>Regalo</item>
+        <item>Transferencias</item>
+        <item>Otros</item>
+    </string-array>
+</resources>

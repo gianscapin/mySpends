@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.gscapin.myspends.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_spendFragment"
+            app:destination="@id/spendFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_earnFragment"
+            app:destination="@id/earnFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/spendFragment"
+        android:name="com.gscapin.myspends.ui.forms.SpendFragment"
+        android:label="fragment_spend"
+        tools:layout="@layout/fragment_spend" />
+    <fragment
+        android:id="@+id/earnFragment"
+        android:name="com.gscapin.myspends.ui.forms.EarnFragment"
+        android:label="fragment_earn"
+        tools:layout="@layout/fragment_earn" />
+</navigation>

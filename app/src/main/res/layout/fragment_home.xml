@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextAppearance.Material3.HeadlineLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Mis gastos"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_total"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/total_spends"
+            app:cardCornerRadius="4dp"
+            app:strokeColor="@color/total_spends"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/total_circular"
+                    style="@style/TextAppearance.Material3.DisplayLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="90"
+                    android:textStyle="bold"
+                    android:textColor="@color/earns"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/circularProgressIndicator"
+                    app:layout_constraintEnd_toEndOf="@+id/circularProgressIndicator"
+                    app:layout_constraintStart_toStartOf="@+id/circularProgressIndicator"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/circularProgressIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:indeterminate="false"
+                    android:progress="80"
+                    app:indicatorColor="@color/earns"
+                    app:indicatorSize="200dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:trackColor="@color/black"
+                    app:trackThickness="10dp" />
+
+                <TextView
+                    android:id="@+id/total"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Total: "
+                    app:layout_constraintBottom_toTopOf="@+id/totalEarns"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/totalEarns"
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Ganancias totales: "
+                    app:layout_constraintBottom_toTopOf="@+id/totalSpends"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/totalSpends"
+                    style="@style/TextAppearance.Material3.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Gastos totales: "
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_spends"
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/spends"
+            app:strokeColor="@color/spends"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_total">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Gastos "
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_spend"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    app:iconTint="@color/white"
+                    app:iconSize="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_earns"
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/earns"
+            app:strokeColor="@color/earns"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_spends">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Ganancias "
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_earn"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    app:icon="@drawable/ic_baseline_add_24"
+                    app:iconTint="@color/white"
+                    app:iconSize="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

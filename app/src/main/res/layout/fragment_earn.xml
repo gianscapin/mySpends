@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.forms.EarnFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:navigationIconTint="@color/white"
+        app:title="Nueva ganancia"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:titleTextColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/earns" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_layout1"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="Nombre">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_earn"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_layout3"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="Monto">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/amount_earn"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/type_earn"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/autocomplete_types"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Tipo"
+            android:imeOptions="actionGo"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_earn_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/type_earn"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/earns"
+        android:enabled="false"
+        android:text="Agregar gasto" />
+</androidx.constraintlayout.widget.ConstraintLayout>
