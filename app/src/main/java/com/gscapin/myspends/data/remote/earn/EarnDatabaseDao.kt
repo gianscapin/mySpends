@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface EarnDatabaseDao {
 
     @Query("SELECT * from earns_tbl")
-    fun getEarns(): Flow<List<Earn>>
+    suspend fun getEarns(): List<Earn>
 
     @Query("SELECT * from earns_tbl where id = :id")
     suspend fun getEarnById(id: String): Earn
@@ -23,6 +23,9 @@ interface EarnDatabaseDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(earn: Earn)
+
+    @Query("SELECT SUM(amount) from earns_tbl")
+    suspend fun getTotalAmount(): Double
 
     @Query("DELETE from earns_tbl")
     suspend fun deleteAll()

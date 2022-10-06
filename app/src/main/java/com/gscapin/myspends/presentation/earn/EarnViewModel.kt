@@ -1,0 +1,119 @@
+package com.gscapin.myspends.presentation.earn
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.gscapin.myspends.data.model.Earn
+import com.gscapin.myspends.repository.earn.EarnRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Inject
+import com.gscapin.myspends.core.Result
+import com.gscapin.myspends.data.model.Spend
+import com.gscapin.myspends.repository.spend.SpendRepository
+import com.gscapin.myspends.repository.spend.SpendRepositoryImpl
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+@HiltViewModel
+class EarnSpendViewModel @Inject constructor(
+    private val repositoryEarn: EarnRepositoryImpl,
+    private val repositorySpend: SpendRepositoryImpl
+) : ViewModel() {
+
+    private val earnsState = MutableStateFlow<Result<List<Earn>>>(Result.Loading())
+    private val spendsState = MutableStateFlow<Result<List<Spend>>>(Result.Loading())
+    private val totalAmountEarnsState = MutableStateFlow<Double>(0.0)
+    private val totalAmountSpendsState = MutableStateFlow<Double>(0.0)
+    private val totalAmount = MutableStateFlow<Double>(0.0)
+
+    fun addEarn(earn: Earn) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+
+        try {
+            emit(Result.Success(repositoryEarn.addEarn(earn)))
+        } catch (e: Exception) {
+            emit(Result.Failure(e))
+        }
+    }
+
+    fun deleteEarn(earn: Earn) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+
+        try {
+            emit(Result.Success(repositoryEarn.deleteEarn(earn)))
+            getEarns()
+            getAmountEarns()
+        } catch (e: Exception) {
+            emit(Result.Failure(e))
+        }
+    }
+
+    fun addSpend(spend: Spend) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+
+        try {
+            emit(Result.Success(repositorySpend.addSpend(spend)))
+        } catch (e: Exception) {
+            emit(Result.Failure(e))
+        }
+    }
+
+    fun deleteSpend(spend: Spend) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+
+        try {
+            emit(Result.Success(repositorySpend.deleteSpend(spend)))
+            getSpends()
+            getAmountSpends()
+        } catch (e: Exception) {
+            emit(Result.Failure(e))
+        }
+    }
+
+    fun getEarns() = viewModelScope.launch {
+        kotlin.runCatching {
+            earnsState.value = Result.Success(repositoryEarn.getEarns())
+        }.onFailure {
+            earnsState.value = Result.Failure(Exception(it.message))
+        }
+    }
+
+    fun getSpends() = viewModelScope.launch {
+        kotlin.runCatching {
+            spendsState.value = Result.Success(repositorySpend.getSpends())
+        }.onFailure {
+            spendsState.value = Result.Failure(Exception(it.message))
+        }
+    }
+
+    fun getEarnList(): StateFlow<Result<List<Earn>>> = earnsState
+    fun getSpendList(): StateFlow<Result<List<Spend>>> = spendsState
+
+    fun getAmountEarns() = viewModelScope.launch {
+        kotlin.runCatching {
+            totalAmountEarnsState.value = repositoryEarn.getTotalAmount()
+            calculateTotalAmount()
+        }.onFailure {
+            totalAmountEarnsState.value = 0.0
+        }
+    }
+
+    fun getAmountSpends() = viewModelScope.launch {
+        kotlin.runCatching {
+            totalAmountSpendsState.value = repositorySpend.getTotalAmount()
+            calculateTotalAmount()
+        }.onFailure {
+            totalAmountSpendsState.value = 0.0
+        }
+    }
+
+    fun getTotalSpends(): StateFlow<Double> = totalAmountSpendsState
+    fun getTotalEarns(): StateFlow<Double> = totalAmountEarnsState
+    fun getTotalAmount(): StateFlow<Double> = totalAmount
+    private fun calculateTotalAmount() {
+        totalAmount.value = totalAmountEarnsState.value - totalAmountSpendsState.value
+    }
+
+}

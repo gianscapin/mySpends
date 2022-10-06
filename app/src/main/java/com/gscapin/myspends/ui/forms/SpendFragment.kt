@@ -7,19 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.gscapin.myspends.R
 import com.gscapin.myspends.data.model.Spend
 import com.gscapin.myspends.databinding.FragmentSpendBinding
+import com.gscapin.myspends.presentation.earn.EarnSpendViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.log
+import com.gscapin.myspends.core.Result
 
+@AndroidEntryPoint
 class SpendFragment : Fragment(R.layout.fragment_spend) {
     private lateinit var binding: FragmentSpendBinding
 
     var nameInputFill: Boolean = false
     var amountInputFill: Boolean = false
     var typeInputFill: Boolean = false
+
+    val viewModel: EarnSpendViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,7 +63,21 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
             val spend: Spend =
                 Spend(name = name, description = description, amount = amount, type = type)
 
-            Log.d("Spend", "$spend")
+            viewModel.addSpend(spend).observe(viewLifecycleOwner, Observer { result ->
+                when(result){
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        findNavController().popBackStack()
+                    }
+                    is Result.Failure -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error ${result.exception}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            })
         }
     }
 
