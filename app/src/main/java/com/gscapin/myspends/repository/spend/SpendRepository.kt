@@ -10,5 +10,5 @@ interface SpendRepository {
     suspend fun getSpendById(id: String): Spend
     suspend fun addSpend(spend: Spend)
     suspend fun deleteSpend(spend: Spend)
-    suspend fun getTotalAmount(): Double
+    suspend fun getTotalAmount(): Double?
 }

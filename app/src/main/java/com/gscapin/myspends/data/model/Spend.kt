@@ -2,6 +2,12 @@ package com.gscapin.myspends.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.text.DateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Calendar
+import java.util.Date
 import java.util.UUID
 
 @Entity(tableName = "spends_tbl")
@@ -11,5 +17,6 @@ data class Spend(
     val name: String,
     val type: String,
     val amount: Double,
-    val description: String
+    val description: String,
+    val created: Date = Date.from(Instant.now())
 )

@@ -23,7 +23,7 @@ interface SpendDatabaseDao {
     suspend fun deleteAll()
 
     @Query("SELECT SUM(amount) from spends_tbl")
-    suspend fun getTotalAmount(): Double
+    suspend fun getTotalAmount(): Double?
 
     @Delete
     suspend fun deleteSpend(spend: Spend)

@@ -25,7 +25,7 @@ interface EarnDatabaseDao {
     suspend fun update(earn: Earn)
 
     @Query("SELECT SUM(amount) from earns_tbl")
-    suspend fun getTotalAmount(): Double
+    suspend fun getTotalAmount(): Double?
 
     @Query("DELETE from earns_tbl")
     suspend fun deleteAll()

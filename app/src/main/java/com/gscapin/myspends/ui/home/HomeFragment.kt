@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -42,10 +43,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
         loadEarns()
         loadSpends()
 
-        getEarnsAmount()
-        getSpendsAmount()
         getTotal()
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+        binding.cardEarns.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_earnManageFragment)
+        }
 
         //viewModel.getAmountSpends()
 
@@ -53,13 +57,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
 
     private fun getTotal() {
         lifecycleScope.launchWhenCreated {
-            viewModel.getTotalAmount().collect{result ->
+            viewModel.getTotalAmount().collect { result ->
                 total = result
                 binding.total.text = "Total: $ ${result}"
 
-                val totalProgressIndicator= (total * 100) / totalEarn
+
+                var totalProgressIndicator: Double = 0.0
+                if (result > 1) {
+                    totalProgressIndicator = (total * 100) / totalEarn
+                }
                 binding.circularProgressIndicator.progress = totalProgressIndicator.toInt()
                 binding.totalCircular.text = totalProgressIndicator.toInt().toString()
+
             }
         }
     }
@@ -82,16 +91,19 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
             viewModel.getTotalEarns().collect { result ->
                 totalEarn = result
                 binding.totalEarns.text = "Total ganancias: $ ${result}"
+                getTotal()
             }
         }
+
     }
 
     private fun getSpendsAmount() {
         viewModel.getAmountSpends()
         lifecycleScope.launchWhenCreated {
-            viewModel.getTotalSpends().collect{ result ->
+            viewModel.getTotalSpends().collect { result ->
                 totalSpend = result
                 binding.totalSpends.text = "Gastos totales: $ $result"
+                getTotal()
             }
         }
     }
@@ -104,9 +116,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
                     is Result.Loading -> {}
                     is Result.Success -> {
                         if (result.data.isEmpty()) {
+                            binding.rvEarns.visibility = View.GONE
+                            binding.messageEarn.visibility = View.VISIBLE
                             return@collect
                         } else {
+                            binding.messageEarn.visibility = View.GONE
+                            binding.rvEarns.visibility = View.VISIBLE
                             binding.rvEarns.adapter = EarnsAdapter(result.data, this@HomeFragment)
+                            getEarnsAmount()
+
                         }
                     }
                     is Result.Failure -> {
@@ -131,9 +149,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
                     is Result.Loading -> {}
                     is Result.Success -> {
                         if (result.data.isEmpty()) {
+                            binding.rvSpends.visibility = View.GONE
+                            binding.messageSpend.visibility = View.VISIBLE
                             return@collect
                         } else {
+                            binding.messageSpend.visibility = View.GONE
+                            binding.rvSpends.visibility = View.VISIBLE
                             binding.rvSpends.adapter = SpendsAdapter(result.data, this@HomeFragment)
+                            getSpendsAmount()
                         }
                     }
                     is Result.Failure -> {
@@ -152,11 +175,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
 
     override fun onEarnBtnClick(earn: Earn) {
         viewModel.deleteEarn(earn).observe(viewLifecycleOwner, Observer { result ->
-            when(result){
+            when (result) {
                 is Result.Loading -> {}
                 is Result.Success -> {
-                    getEarnsAmount()
-                    getSpendsAmount()
+                    loadEarns()
+                    loadSpends()
                 }
                 is Result.Failure -> {
                     Toast.makeText(
@@ -171,13 +194,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
 
     override fun onSpendBtnClick(spend: Spend) {
         viewModel.deleteSpend(spend).observe(viewLifecycleOwner, Observer { result ->
-            when(result){
+            when (result) {
                 is Result.Loading -> {}
                 is Result.Success -> {
                     loadEarns()
                     loadSpends()
-                    getEarnsAmount()
-                    getSpendsAmount()
                 }
                 is Result.Failure -> {
                     Toast.makeText(

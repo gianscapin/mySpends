@@ -12,5 +12,5 @@ class EarnRepositoryImpl @Inject constructor(private val dataSource: EarnDataSou
     override suspend fun addEarn(earn: Earn) = dataSource.addEarn(earn)
 
     override suspend fun deleteEarn(earn: Earn) = dataSource.deleteEarn(earn)
-    override suspend fun getTotalAmount(): Double = dataSource.getTotalAmount()
+    override suspend fun getTotalAmount(): Double? = dataSource.getTotalAmount()
 }

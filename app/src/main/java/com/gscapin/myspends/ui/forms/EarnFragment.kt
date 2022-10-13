@@ -19,6 +19,8 @@ import com.gscapin.myspends.databinding.FragmentEarnBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.gscapin.myspends.core.Result
 import com.gscapin.myspends.presentation.earn.EarnSpendViewModel
+import java.time.LocalDate
+import java.util.*
 
 @AndroidEntryPoint
 class EarnFragment : Fragment(R.layout.fragment_earn) {
@@ -45,7 +47,7 @@ class EarnFragment : Fragment(R.layout.fragment_earn) {
     }
 
     private fun goHome() {
-        binding.materialToolbar.setNavigationOnClickListener {
+        binding.navigationIcon.setOnClickListener {
             findNavController().popBackStack()
         }
     }

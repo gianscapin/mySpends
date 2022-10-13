@@ -45,6 +45,7 @@ class EarnSpendViewModel @Inject constructor(
             emit(Result.Success(repositoryEarn.deleteEarn(earn)))
             getEarns()
             getAmountEarns()
+            calculateTotalAmount()
         } catch (e: Exception) {
             emit(Result.Failure(e))
         }
@@ -67,6 +68,7 @@ class EarnSpendViewModel @Inject constructor(
             emit(Result.Success(repositorySpend.deleteSpend(spend)))
             getSpends()
             getAmountSpends()
+            calculateTotalAmount()
         } catch (e: Exception) {
             emit(Result.Failure(e))
         }
@@ -93,7 +95,7 @@ class EarnSpendViewModel @Inject constructor(
 
     fun getAmountEarns() = viewModelScope.launch {
         kotlin.runCatching {
-            totalAmountEarnsState.value = repositoryEarn.getTotalAmount()
+            totalAmountEarnsState.value = repositoryEarn.getTotalAmount()!!
             calculateTotalAmount()
         }.onFailure {
             totalAmountEarnsState.value = 0.0
@@ -102,7 +104,7 @@ class EarnSpendViewModel @Inject constructor(
 
     fun getAmountSpends() = viewModelScope.launch {
         kotlin.runCatching {
-            totalAmountSpendsState.value = repositorySpend.getTotalAmount()
+            totalAmountSpendsState.value = repositorySpend.getTotalAmount()!!
             calculateTotalAmount()
         }.onFailure {
             totalAmountSpendsState.value = 0.0

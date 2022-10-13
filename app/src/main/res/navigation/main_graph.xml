@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_earnFragment"
             app:destination="@id/earnFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_earnManageFragment"
+            app:destination="@id/earnManageFragment" />
     </fragment>
     <fragment
         android:id="@+id/spendFragment"
@@ -27,4 +30,9 @@
         android:name="com.gscapin.myspends.ui.forms.EarnFragment"
         android:label="fragment_earn"
         tools:layout="@layout/fragment_earn" />
+    <fragment
+        android:id="@+id/earnManageFragment"
+        android:name="com.gscapin.myspends.ui.earn.EarnManageFragment"
+        android:label="fragment_earn_manage"
+        tools:layout="@layout/fragment_earn_manage" />
 </navigation>

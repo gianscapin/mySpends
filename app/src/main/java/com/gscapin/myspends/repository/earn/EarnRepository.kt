@@ -10,5 +10,5 @@ interface EarnRepository {
     suspend fun getEarnById(id: String): Earn
     suspend fun addEarn(earn: Earn)
     suspend fun deleteEarn(earn: Earn)
-    suspend fun getTotalAmount(): Double
+    suspend fun getTotalAmount(): Double?
 }

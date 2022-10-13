@@ -19,6 +19,8 @@ import com.gscapin.myspends.presentation.earn.EarnSpendViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.log
 import com.gscapin.myspends.core.Result
+import java.time.LocalDate
+import java.util.Calendar
 
 @AndroidEntryPoint
 class SpendFragment : Fragment(R.layout.fragment_spend) {
@@ -48,7 +50,7 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
     }
 
     private fun goHome() {
-        binding.materialToolbar.setNavigationOnClickListener {
+        binding.navigationIcon.setOnClickListener {
             findNavController().popBackStack()
         }
     }
