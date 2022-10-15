@@ -7,7 +7,7 @@ import com.gscapin.myspends.core.DateConverter
 import com.gscapin.myspends.core.UUIDConverter
 import com.gscapin.myspends.data.model.Earn
 
-@Database(entities = [Earn::class], version = 8, exportSchema = false)
+@Database(entities = [Earn::class], version = 10, exportSchema = false)
 @TypeConverters(DateConverter::class, UUIDConverter::class)
 abstract class EarnDatabase : RoomDatabase() {
     abstract fun earnDao(): EarnDatabaseDao

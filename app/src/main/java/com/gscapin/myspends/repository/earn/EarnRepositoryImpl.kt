@@ -13,4 +13,7 @@ class EarnRepositoryImpl @Inject constructor(private val dataSource: EarnDataSou
 
     override suspend fun deleteEarn(earn: Earn) = dataSource.deleteEarn(earn)
     override suspend fun getTotalAmount(): Double? = dataSource.getTotalAmount()
+    override suspend fun getEarnsByCurrentMonth(): Double? = dataSource.getEarnsByCurrentMonth()
+
+    override suspend fun getEarnsByLastMonth(): Double? = dataSource.getEarnsByLastMonth()
 }

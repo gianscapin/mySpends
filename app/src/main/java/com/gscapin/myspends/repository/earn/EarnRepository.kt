@@ -11,4 +11,6 @@ interface EarnRepository {
     suspend fun addEarn(earn: Earn)
     suspend fun deleteEarn(earn: Earn)
     suspend fun getTotalAmount(): Double?
+    suspend fun getEarnsByCurrentMonth(): Double?
+    suspend fun getEarnsByLastMonth(): Double?
 }

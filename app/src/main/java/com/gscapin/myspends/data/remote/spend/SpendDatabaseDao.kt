@@ -25,6 +25,12 @@ interface SpendDatabaseDao {
     @Query("SELECT SUM(amount) from spends_tbl")
     suspend fun getTotalAmount(): Double?
 
+    @Query("SELECT SUM(amount) from spends_tbl where month = strftime('%m', 'now')")
+    suspend fun getSpendsByCurrentMonth(): Double?
+
+    @Query("SELECT SUM(amount) from spends_tbl where month = strftime('%m', 'now - 1')")
+    suspend fun getSpendsByPastMonth(): Double?
+
     @Delete
     suspend fun deleteSpend(spend: Spend)
 }

@@ -11,4 +11,6 @@ class EarnDataSource @Inject constructor(private val earnDao: EarnDatabaseDao) {
     suspend fun addEarn(earn: Earn) = earnDao.insert(earn)
     suspend fun deleteEarn(earn: Earn) = earnDao.deleteEarn(earn)
     suspend fun getTotalAmount() = earnDao.getTotalAmount()
+    suspend fun getEarnsByCurrentMonth(): Double? = earnDao.getEarnsByCurrentMonth()
+    suspend fun getEarnsByLastMonth() = earnDao.getEarnsByPastMonth()
 }

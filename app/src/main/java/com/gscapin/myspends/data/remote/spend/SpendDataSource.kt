@@ -9,4 +9,6 @@ class SpendDataSource @Inject constructor(private val spendDao: SpendDatabaseDao
     suspend fun addSpend(spend: Spend) = spendDao.insert(spend)
     suspend fun deleteSpend(spend: Spend) = spendDao.deleteSpend(spend)
     suspend fun getTotalAmount() = spendDao.getTotalAmount()
+    suspend fun getSpendsCurrentMonth(): Double? = spendDao.getSpendsByCurrentMonth()
+    suspend fun getSpendsLastMonth(): Double? = spendDao.getSpendsByPastMonth()
 }

@@ -27,6 +27,12 @@ interface EarnDatabaseDao {
     @Query("SELECT SUM(amount) from earns_tbl")
     suspend fun getTotalAmount(): Double?
 
+    @Query("SELECT SUM(amount) from earns_tbl where month = strftime('%m', 'now')")
+    suspend fun getEarnsByCurrentMonth(): Double?
+
+    @Query("SELECT SUM(amount) from earns_tbl where month = strftime('%m', 'now - 1')")
+    suspend fun getEarnsByPastMonth(): Double?
+
     @Query("DELETE from earns_tbl")
     suspend fun deleteAll()
 

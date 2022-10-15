@@ -13,5 +13,7 @@ class SpendRepositoryImpl @Inject constructor(private val dataSource: SpendDataS
 
     override suspend fun deleteSpend(spend: Spend) = dataSource.deleteSpend(spend)
     override suspend fun getTotalAmount(): Double? = dataSource.getTotalAmount()
+    override suspend fun getSpendsCurrentMonth(): Double? = dataSource.getSpendsCurrentMonth()
+    override suspend fun getSpendsLastMonth(): Double? = dataSource.getSpendsLastMonth()
 
 }

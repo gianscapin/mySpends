@@ -1,60 +1,107 @@
 package com.gscapin.myspends.ui.spend
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.gscapin.myspends.R
+import com.gscapin.myspends.core.Result
+import com.gscapin.myspends.data.model.Spend
+import com.gscapin.myspends.databinding.FragmentSpendManageBinding
+import com.gscapin.myspends.presentation.earn.EarnSpendViewModel
+import com.gscapin.myspends.ui.home.adapter.EarnsAdapter
+import com.gscapin.myspends.ui.home.adapter.OnSpendClickListener
+import com.gscapin.myspends.ui.home.adapter.SpendsAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SpendManageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SpendManageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+@AndroidEntryPoint
+class SpendManageFragment : Fragment(R.layout.fragment_spend_manage), OnSpendClickListener {
+    private lateinit var binding: FragmentSpendManageBinding
+    val viewModel: EarnSpendViewModel by viewModels()
+    var balanceAmount: Double = 0.0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentSpendManageBinding.bind(view)
+
+        goHome()
+
+        getSpendList()
+
+        getSpendsCurrentMonth()
+
+        getSpendsLastMonth()
+    }
+
+    private fun getSpendsLastMonth() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.getSpendsByLastMonth()
+            viewModel.getTotalEarnLastMonth().collect { result ->
+                binding.totalPastMonth.text = "$ $result"
+                balanceAmount -= result
+                binding.totalBalance.text = "$ $balanceAmount"
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_spend_manage, container, false)
+    private fun getSpendsCurrentMonth() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.getSpendsByCurrentMonth()
+            viewModel.getTotalSpendsCurrentMonth().collect { result ->
+                binding.totalPresentMonth.text = "$ $result"
+                balanceAmount += result
+                binding.totalBalance.text = "$ $balanceAmount"
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SpendManageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SpendManageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun getSpendList() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.getSpends()
+            viewModel.getSpendList().collect { result ->
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        if (result.data.isEmpty()) {
+                            binding.rvSpends.visibility = View.GONE
+                            binding.textEmptyList.visibility = View.VISIBLE
+                            return@collect
+                        } else {
+                            binding.textEmptyList.visibility = View.GONE
+                            binding.rvSpends.visibility = View.VISIBLE
+                            binding.rvSpends.adapter =
+                                SpendsAdapter(result.data, this@SpendManageFragment)
+                        }
+                    }
+                    is Result.Failure -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error ${result.exception}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        Log.d("error db", "${result.exception}")
+                    }
                 }
             }
+        }
+    }
+
+    private fun goHome() {
+        binding.navigationIcon.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    override fun onSpendBtnClick(spend: Spend) {
+        TODO("Not yet implemented")
     }
 }

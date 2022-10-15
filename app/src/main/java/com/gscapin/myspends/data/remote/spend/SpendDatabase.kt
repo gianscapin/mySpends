@@ -7,7 +7,7 @@ import com.gscapin.myspends.core.DateConverter
 import com.gscapin.myspends.core.UUIDConverter
 import com.gscapin.myspends.data.model.Spend
 
-@Database(entities = [Spend::class], version = 4, exportSchema = false)
+@Database(entities = [Spend::class], version = 6, exportSchema = false)
 @TypeConverters(DateConverter::class, UUIDConverter::class)
 abstract class SpendDatabase : RoomDatabase() {
     abstract fun spendDao(): SpendDatabaseDao

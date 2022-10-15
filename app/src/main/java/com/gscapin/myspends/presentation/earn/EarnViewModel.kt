@@ -24,6 +24,10 @@ class EarnSpendViewModel @Inject constructor(
 
     private val earnsState = MutableStateFlow<Result<List<Earn>>>(Result.Loading())
     private val spendsState = MutableStateFlow<Result<List<Spend>>>(Result.Loading())
+    private val earnsCurrentMonth = MutableStateFlow<Double>(0.0)
+    private val earnsLastMonth = MutableStateFlow<Double>(0.0)
+    private val spendsCurrentMonth = MutableStateFlow<Double>(0.0)
+    private val spendsLastMonth = MutableStateFlow<Double>(0.0)
     private val totalAmountEarnsState = MutableStateFlow<Double>(0.0)
     private val totalAmountSpendsState = MutableStateFlow<Double>(0.0)
     private val totalAmount = MutableStateFlow<Double>(0.0)
@@ -82,6 +86,38 @@ class EarnSpendViewModel @Inject constructor(
         }
     }
 
+    fun getEarnsByCurrentMonth() = viewModelScope.launch {
+        kotlin.runCatching {
+            earnsCurrentMonth.value = repositoryEarn.getEarnsByCurrentMonth()!!
+        }.onFailure {
+            earnsCurrentMonth.value = 0.0
+        }
+    }
+
+    fun getSpendsByCurrentMonth() = viewModelScope.launch {
+        kotlin.runCatching {
+            spendsCurrentMonth.value = repositorySpend.getSpendsCurrentMonth()!!
+        }.onFailure {
+            spendsCurrentMonth.value = 0.0
+        }
+    }
+
+    fun getEarnsByLastMonth() = viewModelScope.launch {
+        kotlin.runCatching {
+            earnsLastMonth.value = repositoryEarn.getEarnsByLastMonth()!!
+        }.onFailure {
+            earnsLastMonth.value = 0.0
+        }
+    }
+
+    fun getSpendsByLastMonth() = viewModelScope.launch {
+        kotlin.runCatching {
+            spendsLastMonth.value = repositorySpend.getSpendsLastMonth()!!
+        }.onFailure {
+            spendsLastMonth.value = 0.0
+        }
+    }
+
     fun getSpends() = viewModelScope.launch {
         kotlin.runCatching {
             spendsState.value = Result.Success(repositorySpend.getSpends())
@@ -92,6 +128,10 @@ class EarnSpendViewModel @Inject constructor(
 
     fun getEarnList(): StateFlow<Result<List<Earn>>> = earnsState
     fun getSpendList(): StateFlow<Result<List<Spend>>> = spendsState
+    fun getTotalCurrentMonth(): StateFlow<Double> = earnsCurrentMonth
+    fun getTotalEarnLastMonth(): StateFlow<Double> = earnsLastMonth
+    fun getTotalSpendsCurrentMonth(): StateFlow<Double> = spendsCurrentMonth
+    fun getTotalSpendsLastMonth(): StateFlow<Double> = spendsLastMonth
 
     fun getAmountEarns() = viewModelScope.launch {
         kotlin.runCatching {

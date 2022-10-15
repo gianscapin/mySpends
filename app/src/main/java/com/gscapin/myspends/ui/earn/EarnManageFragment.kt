@@ -20,12 +20,14 @@ import com.gscapin.myspends.core.Result
 import com.gscapin.myspends.ui.home.adapter.EarnsAdapter
 import com.gscapin.myspends.ui.home.adapter.OnEarnClickListener
 import kotlinx.coroutines.flow.collect
+import kotlin.math.log
 
 @AndroidEntryPoint
 class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickListener {
 
     private lateinit var binding: FragmentEarnManageBinding
     val viewModel: EarnSpendViewModel by viewModels()
+    var balanceAmount: Double = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,20 +35,54 @@ class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickL
 
         goHome()
 
+        getEarnList()
+
+        getEarnsCurrentMonth()
+
+        getEarnsLastMonth()
+
+
+
+    }
+
+    private fun getEarnsLastMonth() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.getEarnsByLastMonth()
+            viewModel.getTotalEarnLastMonth().collect { result ->
+                binding.totalPastMonth.text = "$ $result"
+                balanceAmount -= result
+                binding.totalBalance.text = "$ $balanceAmount"
+            }
+        }
+    }
+
+    private fun getEarnsCurrentMonth() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.getEarnsByCurrentMonth()
+            viewModel.getTotalCurrentMonth().collect { result ->
+                binding.totalPresentMonth.text = "$ $result"
+                balanceAmount += result
+                binding.totalBalance.text = "$ $balanceAmount"
+            }
+        }
+    }
+
+    private fun getEarnList() {
         lifecycleScope.launchWhenCreated {
             viewModel.getEarns()
             viewModel.getEarnList().collect { result ->
                 when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
-                        if(result.data.isEmpty()){
+                        if (result.data.isEmpty()) {
                             binding.rvEarns.visibility = View.GONE
                             binding.textEmptyList.visibility = View.VISIBLE
                             return@collect
-                        }else{
+                        } else {
                             binding.textEmptyList.visibility = View.GONE
                             binding.rvEarns.visibility = View.VISIBLE
-                            binding.rvEarns.adapter = EarnsAdapter(result.data, this@EarnManageFragment)
+                            binding.rvEarns.adapter =
+                                EarnsAdapter(result.data, this@EarnManageFragment)
                         }
                     }
                     is Result.Failure -> {
@@ -61,8 +97,6 @@ class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickL
                 }
             }
         }
-
-
     }
 
     private fun goHome() {

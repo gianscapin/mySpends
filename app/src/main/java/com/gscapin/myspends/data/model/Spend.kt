@@ -18,5 +18,5 @@ data class Spend(
     val type: String,
     val amount: Double,
     val description: String,
-    val created: Date = Date.from(Instant.now())
+    val month: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
 )

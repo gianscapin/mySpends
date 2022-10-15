@@ -47,12 +47,24 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-        binding.cardEarns.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_earnManageFragment)
-        }
+        goEarnsManage()
+
+        goSpendsManage()
 
         //viewModel.getAmountSpends()
 
+    }
+
+    private fun goSpendsManage() {
+        binding.cardSpends.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_spendManageFragment)
+        }
+    }
+
+    private fun goEarnsManage() {
+        binding.cardEarns.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_earnManageFragment)
+        }
     }
 
     private fun getTotal() {
