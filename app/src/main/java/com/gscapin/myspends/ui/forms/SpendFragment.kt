@@ -46,7 +46,21 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
 
         fillTypeInput()
 
+        fillTypeCuotes()
+
         addSpend()
+
+        checkCuotes()
+    }
+
+    private fun checkCuotes() {
+        binding.checkBox.setOnClickListener {
+            if (binding.checkBox.isChecked) {
+                binding.inputCuotes.visibility = View.VISIBLE
+            } else {
+                binding.inputCuotes.visibility = View.GONE
+            }
+        }
     }
 
     private fun goHome() {
@@ -66,9 +80,13 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
                 Spend(name = name, description = description, amount = amount, type = type)
 
             viewModel.addSpend(spend).observe(viewLifecycleOwner, Observer { result ->
-                when(result){
+                when (result) {
                     is Result.Loading -> {}
                     is Result.Success -> {
+
+                        if (binding.checkBox.isChecked && (!binding.autocompleteCuotes.text.equals("Cuotas"))) {
+                            addSpendCuotes(spend)
+                        }
                         findNavController().popBackStack()
                     }
                     is Result.Failure -> {
@@ -83,6 +101,27 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
         }
     }
 
+    private fun addSpendCuotes(spend: Spend) {
+        val cuotes = binding.autocompleteCuotes.text.toString().toInt()
+
+        for (i in 1 until cuotes) {
+            var month = Calendar.getInstance().get(Calendar.MONTH) + 1 + i
+            if(month>12){
+                month -= 12
+            }
+            val spendInCuote = Spend(
+                name = spend.name,
+                description = spend.description,
+                amount = spend.amount,
+                type = spend.type,
+                month = month
+            )
+            viewModel.addSpend(spendInCuote)
+
+            Log.d("cuote", "$spendInCuote")
+        }
+    }
+
     private fun fillTypeInput() {
         val types = resources.getStringArray(R.array.types_spends)
         val adapter = ArrayAdapter(
@@ -92,6 +131,19 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
         )
 
         with(binding.autocompleteTypes) {
+            setAdapter(adapter)
+        }
+    }
+
+    private fun fillTypeCuotes() {
+        val types = resources.getStringArray(R.array.cuotes)
+        val adapter = ArrayAdapter(
+            requireContext(),
+            R.layout.list_item,
+            types
+        )
+
+        with(binding.autocompleteCuotes) {
             setAdapter(adapter)
         }
     }

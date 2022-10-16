@@ -1,143 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".ui.forms.SpendFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="bottom"
-        app:titleMarginBottom="20dp"
-        app:title="Nuevo gasto"
-        app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-        app:titleMarginTop="15dp"
-        app:titleTextColor="@color/white"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/spends"
-        android:fitsSystemWindows="true"
-        tools:ignore="ExtraText" />
+        android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/navigation_icon"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_arrow_back_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white"
-        android:layout_marginTop="10dp"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/materialToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/spends"
+            android:fitsSystemWindows="true"
+            android:gravity="bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Nuevo gasto"
+            app:titleMarginBottom="20dp"
+            app:titleMarginTop="15dp"
+            app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            app:titleTextColor="@color/white"
+            tools:ignore="ExtraText" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_layout1"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="80dp"
-        android:hint="Nombre"
-        app:boxStrokeColor="@color/spends"
-        app:hintTextColor="?attr/colorSecondaryVariant"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
+        <ImageButton
+            android:id="@+id/navigation_icon"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name_spend"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout1"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="40dp"
+            android:hint="Nombre"
+            app:boxStrokeColor="@color/spends"
+            app:hintTextColor="?attr/colorSecondaryVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_layout2"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:hint="Descripción"
-        app:boxStrokeColor="@color/spends"
-        app:hintTextColor="?attr/colorSecondaryVariant"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_layout1">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_spend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/description_spend"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout2"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:lines="4"
-            android:maxLines="4"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="100dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:hint="Descripción"
+            app:boxStrokeColor="@color/spends"
+            app:hintTextColor="?attr/colorSecondaryVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_layout1">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_layout3"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:hint="Monto"
-        app:boxStrokeColor="@color/spends"
-        app:hintTextColor="?attr/colorSecondaryVariant"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_layout2">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description_spend"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:lines="4"
+                android:maxLines="4"
+                app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/amount_spend"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout3"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:hint="Monto"
+            app:boxStrokeColor="@color/spends"
+            app:hintTextColor="?attr/colorSecondaryVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_layout2">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/type_spend"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxStrokeColor="@color/spends"
-        app:hintTextColor="?attr/colorSecondaryVariant"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_layout3">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amount_spend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/autocomplete_types"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/type_spend"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Tipo"
-            android:imeOptions="actionGo"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            app:boxStrokeColor="@color/spends"
+            app:hintTextColor="?attr/colorSecondaryVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_layout3">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_spend_btn"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/spends"
-        android:enabled="false"
-        android:text="Agregar gasto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/type_spend" />
+            <AutoCompleteTextView
+                android:id="@+id/autocomplete_types"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Tipo"
+                android:imeOptions="actionNext"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiene cuotas"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="@+id/type_spend"
+            app:layout_constraintTop_toBottomOf="@+id/type_spend" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.Material3.CompoundButton.CheckBox"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/type_spend" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_cuotes"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:boxStrokeColor="@color/spends"
+            app:hintTextColor="?attr/colorSecondaryVariant"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox">
+
+            <AutoCompleteTextView
+                android:id="@+id/autocomplete_cuotes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Cuotas"
+                android:imeOptions="actionGo"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_spend_btn"
+            android:layout_width="200dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/spends"
+            android:enabled="false"
+            android:text="Agregar gasto"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_cuotes" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
