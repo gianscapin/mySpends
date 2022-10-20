@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EarnDatabaseDao {
 
-    @Query("SELECT * from earns_tbl")
+    @Query("SELECT * from earns_tbl where month = strftime('%m', 'now')")
     suspend fun getEarns(): List<Earn>
 
     @Query("SELECT * from earns_tbl where id = :id")

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SpendDatabaseDao {
 
-    @Query("SELECT * from spends_tbl")
+    @Query("SELECT * from spends_tbl where month = strftime('%m', 'now')")
     suspend fun getSpends(): List<Spend>
 
     @Query("SELECT * from spends_tbl where id = :id")
