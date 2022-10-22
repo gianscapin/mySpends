@@ -76,8 +76,14 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
             val amount = binding.amountSpend.text.toString().toDouble()
             val type = binding.autocompleteTypes.text.toString()
 
-            val spend: Spend =
-                Spend(name = name, description = description, amount = amount, type = type)
+            val nameSpend: String = if(binding.checkBox.isChecked && (!binding.autocompleteCuotes.text.equals("Cuotas"))){
+                name + " 1/${binding.autocompleteCuotes.text.toString()}"
+            } else{
+                name
+            }
+
+            val spend =
+                Spend(name = nameSpend, description = description, amount = amount, type = type)
 
             viewModel.addSpend(spend).observe(viewLifecycleOwner, Observer { result ->
                 when (result) {
@@ -85,7 +91,7 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
                     is Result.Success -> {
 
                         if (binding.checkBox.isChecked && (!binding.autocompleteCuotes.text.equals("Cuotas"))) {
-                            addSpendCuotes(spend)
+                            addSpendCuotes(spend, name)
                         }
                         findNavController().popBackStack()
                     }
@@ -101,7 +107,7 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
         }
     }
 
-    private fun addSpendCuotes(spend: Spend) {
+    private fun addSpendCuotes(spend: Spend, name: String) {
         val cuotes = binding.autocompleteCuotes.text.toString().toInt()
 
         for (i in 1 until cuotes) {
@@ -109,8 +115,9 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
             if(month>12){
                 month -= 12
             }
+            val numberCuote = i+1
             val spendInCuote = Spend(
-                name = spend.name,
+                name = name + " ${numberCuote}/${cuotes}",
                 description = spend.description,
                 amount = spend.amount,
                 type = spend.type,
