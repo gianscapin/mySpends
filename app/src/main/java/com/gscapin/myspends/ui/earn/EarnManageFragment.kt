@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.collect
 import kotlin.math.log
 
 @AndroidEntryPoint
-class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickListener {
+class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickListener{
 
     private lateinit var binding: FragmentEarnManageBinding
     val viewModel: EarnSpendViewModel by viewModels()
@@ -32,6 +33,8 @@ class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEarnManageBinding.bind(view)
+
+        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.earns)
 
         goHome()
 
@@ -106,6 +109,6 @@ class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickL
     }
 
     override fun onEarnBtnClick(earn: Earn) {
-        TODO("Not yet implemented")
+        Log.d("earn", earn.toString())
     }
 }

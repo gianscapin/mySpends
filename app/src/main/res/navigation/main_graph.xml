@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_spendManageFragment"
             app:destination="@id/spendManageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_configurationFragment"
+            app:destination="@id/configurationFragment" />
     </fragment>
     <fragment
         android:id="@+id/spendFragment"
@@ -42,4 +45,9 @@
         android:id="@+id/spendManageFragment"
         android:name="com.gscapin.myspends.ui.spend.SpendManageFragment"
         android:label="SpendManageFragment" />
+    <fragment
+        android:id="@+id/configurationFragment"
+        android:name="com.gscapin.myspends.ui.configuration.ConfigurationFragment"
+        android:label="fragment_configuration"
+        tools:layout="@layout/fragment_configuration" />
 </navigation>

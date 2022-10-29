@@ -1,5 +1,6 @@
 package com.gscapin.myspends.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -38,21 +40,36 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        val defaultValue = 0
+
+        if(sharedPref?.getInt("nightMode", defaultValue) == 1){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), com.google.android.material.R.color.mtrl_btn_transparent_bg_color)
+
+        goConfiguration()
+
         addSpend()
         addEarn()
         loadEarns()
         loadSpends()
 
         getTotal()
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
         goEarnsManage()
-
         goSpendsManage()
 
         //viewModel.getAmountSpends()
 
+    }
+
+    private fun goConfiguration() {
+        binding.btnConfiguration.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_configurationFragment)
+        }
     }
 
     private fun goSpendsManage() {
