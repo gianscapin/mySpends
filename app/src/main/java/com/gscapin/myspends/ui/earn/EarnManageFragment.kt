@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -34,7 +35,7 @@ class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickL
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEarnManageBinding.bind(view)
 
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.earns)
+        configStatusBar()
 
         goHome()
 
@@ -46,6 +47,15 @@ class EarnManageFragment : Fragment(R.layout.fragment_earn_manage), OnEarnClickL
 
 
 
+    }
+
+    private fun configStatusBar() {
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.earns)
+        WindowInsetsControllerCompat(
+            requireActivity().window,
+            requireActivity().window.decorView
+        ).isAppearanceLightStatusBars = false
     }
 
     private fun getEarnsLastMonth() {

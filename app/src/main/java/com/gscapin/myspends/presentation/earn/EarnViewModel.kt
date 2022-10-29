@@ -31,6 +31,7 @@ class EarnSpendViewModel @Inject constructor(
     private val totalAmountEarnsState = MutableStateFlow<Double>(0.0)
     private val totalAmountSpendsState = MutableStateFlow<Double>(0.0)
     private val totalAmount = MutableStateFlow<Double>(0.0)
+    private val spendsNextMonth = MutableStateFlow<Double>(0.0)
 
     fun addEarn(earn: Earn) = liveData(Dispatchers.IO) {
         emit(Result.Loading())
@@ -102,6 +103,14 @@ class EarnSpendViewModel @Inject constructor(
         }
     }
 
+    fun getSpendsByNextMonth() = viewModelScope.launch {
+        kotlin.runCatching {
+            spendsNextMonth.value = repositorySpend.getSpendsNextMonth()!!
+        }.onFailure {
+            spendsNextMonth.value = 0.0
+        }
+    }
+
     fun getEarnsByLastMonth() = viewModelScope.launch {
         kotlin.runCatching {
             earnsLastMonth.value = repositoryEarn.getEarnsByLastMonth()!!
@@ -132,6 +141,7 @@ class EarnSpendViewModel @Inject constructor(
     fun getTotalEarnLastMonth(): StateFlow<Double> = earnsLastMonth
     fun getTotalSpendsCurrentMonth(): StateFlow<Double> = spendsCurrentMonth
     fun getTotalSpendsLastMonth(): StateFlow<Double> = spendsLastMonth
+    fun getTotalSpendsNextMonth(): StateFlow<Double> = spendsNextMonth
 
     fun getAmountEarns() = viewModelScope.launch {
         kotlin.runCatching {

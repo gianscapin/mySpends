@@ -1,13 +1,17 @@
 package com.gscapin.myspends.ui.spend
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsetsController
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -29,11 +33,12 @@ class SpendManageFragment : Fragment(R.layout.fragment_spend_manage), OnSpendCli
     val viewModel: EarnSpendViewModel by viewModels()
     var balanceAmount: Double = 0.0
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSpendManageBinding.bind(view)
 
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.spends)
+        configStatusBar()
 
         goHome()
 
@@ -42,12 +47,32 @@ class SpendManageFragment : Fragment(R.layout.fragment_spend_manage), OnSpendCli
         getSpendsCurrentMonth()
 
         getSpendsLastMonth()
+
+        getSpendsNextMonth()
+    }
+
+    private fun getSpendsNextMonth() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.getSpendsByNextMonth()
+            viewModel.getTotalSpendsNextMonth().collect { result ->
+                binding.spendsNextMonth.text = "$ $result"
+            }
+        }
+    }
+
+    private fun configStatusBar() {
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.spends)
+        WindowInsetsControllerCompat(
+            requireActivity().window,
+            requireActivity().window.decorView
+        ).isAppearanceLightStatusBars = false
     }
 
     private fun getSpendsLastMonth() {
         lifecycleScope.launchWhenCreated {
             viewModel.getSpendsByLastMonth()
-            viewModel.getTotalEarnLastMonth().collect { result ->
+            viewModel.getTotalSpendsLastMonth().collect { result ->
                 binding.totalPastMonth.text = "$ $result"
                 balanceAmount -= result
                 binding.totalBalance.text = "$ $balanceAmount"

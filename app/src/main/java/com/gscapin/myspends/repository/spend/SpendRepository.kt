@@ -13,4 +13,5 @@ interface SpendRepository {
     suspend fun getTotalAmount(): Double?
     suspend fun getSpendsCurrentMonth(): Double?
     suspend fun getSpendsLastMonth(): Double?
+    suspend fun getSpendsNextMonth(): Double?
 }

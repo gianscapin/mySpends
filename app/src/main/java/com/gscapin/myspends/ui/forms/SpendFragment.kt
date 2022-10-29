@@ -123,7 +123,17 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
                 type = spend.type,
                 month = month
             )
-            viewModel.addSpend(spendInCuote)
+            viewModel.addSpend(spendInCuote).observe(viewLifecycleOwner, Observer { result ->
+                when(result){
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        Log.d("spend cuote added", result.data.toString())
+                    }
+                    is Result.Failure -> {
+                        Log.e("error cuote ", result.exception.toString())
+                    }
+                }
+            })
 
             Log.d("cuote", "$spendInCuote")
         }

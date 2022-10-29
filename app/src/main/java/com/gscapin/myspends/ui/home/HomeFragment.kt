@@ -1,6 +1,7 @@
 package com.gscapin.myspends.ui.home
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -43,13 +45,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val defaultValue = 0
 
-        if(sharedPref?.getInt("nightMode", defaultValue) == 1){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }else{
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+        configNightMode(sharedPref, defaultValue)
 
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), com.google.android.material.R.color.mtrl_btn_transparent_bg_color)
+        configStatusBar()
 
         goConfiguration()
 
@@ -64,6 +62,32 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
 
         //viewModel.getAmountSpends()
 
+    }
+
+    private fun configNightMode(
+        sharedPref: SharedPreferences?,
+        defaultValue: Int
+    ) {
+        if (sharedPref?.getInt("nightMode", defaultValue) == 1) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            WindowInsetsControllerCompat(
+                requireActivity().window,
+                requireActivity().window.decorView
+            ).isAppearanceLightStatusBars = false
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            WindowInsetsControllerCompat(
+                requireActivity().window,
+                requireActivity().window.decorView
+            ).isAppearanceLightStatusBars = true
+        }
+    }
+
+    private fun configStatusBar() {
+        requireActivity().window.statusBarColor = ContextCompat.getColor(
+            requireContext(),
+            com.google.android.material.R.color.mtrl_btn_transparent_bg_color
+        )
     }
 
     private fun goConfiguration() {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.fragment.findNavController
 import com.gscapin.myspends.R
 import com.gscapin.myspends.databinding.FragmentConfigurationBinding
@@ -38,9 +39,17 @@ class ConfigurationFragment : Fragment(R.layout.fragment_configuration) {
             if (check) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 sharedPref!!.edit().putInt("nightMode", 1).apply()
+                WindowInsetsControllerCompat(
+                    requireActivity().window,
+                    requireActivity().window.decorView
+                ).isAppearanceLightStatusBars = false
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 sharedPref!!.edit().putInt("nightMode", 0).apply()
+                WindowInsetsControllerCompat(
+                    requireActivity().window,
+                    requireActivity().window.decorView
+                ).isAppearanceLightStatusBars = true
             }
         }
     }
