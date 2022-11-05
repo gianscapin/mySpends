@@ -232,12 +232,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Desea eliminar la ganancia seleccionada?")
             .setMessage("Se eliminará la ganancia: ${earn.name}")
-            .setPositiveButton("Eliminar"
+            .setPositiveButton(
+                "Eliminar"
             ) { dialog, p1 ->
                 deleteEarn(earn)
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancelar"){dialog, p1 ->
+            .setNegativeButton("Cancelar") { dialog, p1 ->
                 dialog.dismiss()
             }
             .show()
@@ -266,7 +267,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Desea eliminar el gasto?")
             .setMessage("El gasto eliminado es: ${spend.name}")
-            .setPositiveButton("Eliminar"){dialog, p0 ->
+            .setPositiveButton("Eliminar") { dialog, p0 ->
                 deleteSpend(spend)
                 dialog.dismiss()
             }
