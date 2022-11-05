@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -36,20 +38,14 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSpendBinding.bind(view)
 
+        configStatusBar()
         goHome()
-
         configNameInput()
-
         configAmountInput()
-
         configTypeInput()
-
         fillTypeInput()
-
         fillTypeCuotes()
-
         addSpend()
-
         checkCuotes()
     }
 
@@ -105,6 +101,15 @@ class SpendFragment : Fragment(R.layout.fragment_spend) {
                 }
             })
         }
+    }
+
+    private fun configStatusBar() {
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.spends)
+        WindowInsetsControllerCompat(
+            requireActivity().window,
+            requireActivity().window.decorView
+        ).isAppearanceLightStatusBars = false
     }
 
     private fun addSpendCuotes(spend: Spend, name: String) {

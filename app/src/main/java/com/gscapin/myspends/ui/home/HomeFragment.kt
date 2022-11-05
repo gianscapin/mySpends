@@ -1,6 +1,7 @@
 package com.gscapin.myspends.ui.home
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gscapin.myspends.R
 import com.gscapin.myspends.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -227,6 +229,21 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
     }
 
     override fun onEarnBtnClick(earn: Earn) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Desea eliminar la ganancia seleccionada?")
+            .setMessage("Se eliminará la ganancia: ${earn.name}")
+            .setPositiveButton("Eliminar"
+            ) { dialog, p1 ->
+                deleteEarn(earn)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar"){dialog, p1 ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun deleteEarn(earn: Earn) {
         viewModel.deleteEarn(earn).observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {}
@@ -246,6 +263,20 @@ class HomeFragment : Fragment(R.layout.fragment_home), OnEarnClickListener, OnSp
     }
 
     override fun onSpendBtnClick(spend: Spend) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Desea eliminar el gasto?")
+            .setMessage("El gasto eliminado es: ${spend.name}")
+            .setPositiveButton("Eliminar"){dialog, p0 ->
+                deleteSpend(spend)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar") { dialog, p0 ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun deleteSpend(spend: Spend) {
         viewModel.deleteSpend(spend).observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {}

@@ -35,7 +35,7 @@ interface SpendDatabaseDao {
     suspend fun getSpendsByNextMonth(): Double?
 
 
-    @Query("SELECT * from spends_tbl")
+    @Query("SELECT * from spends_tbl  where month = strftime('%m', 'now', '+1 month')")
     suspend fun getSpendsNextMonth(): List<Spend>
 
     @Delete

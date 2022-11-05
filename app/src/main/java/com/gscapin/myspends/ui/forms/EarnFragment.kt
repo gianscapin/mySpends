@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -37,6 +39,7 @@ class EarnFragment : Fragment(R.layout.fragment_earn) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEarnBinding.bind(view)
 
+        configStatusBar()
         goHome()
         configNameInput()
         configAmountInput()
@@ -44,6 +47,15 @@ class EarnFragment : Fragment(R.layout.fragment_earn) {
         fillTypeInput()
         addEarn()
 
+    }
+
+    private fun configStatusBar() {
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.earns)
+        WindowInsetsControllerCompat(
+            requireActivity().window,
+            requireActivity().window.decorView
+        ).isAppearanceLightStatusBars = false
     }
 
     private fun goHome() {
